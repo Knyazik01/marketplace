@@ -1,5 +1,7 @@
 class AdsController < ApplicationController
   before_action :set_ad, only: %i[ show update destroy ]
+  skip_before_action :authorize, only: [:index, :show]
+  # add check add relation to user
 
   # GET /ads
   def index
