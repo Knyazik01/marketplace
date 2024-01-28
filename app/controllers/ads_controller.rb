@@ -1,13 +1,20 @@
 class AdsController < ApplicationController
   before_action :set_ad, only: %i[ show update destroy ]
   skip_before_action :authorize, only: [:index, :show]
-  # add check add relation to user
+  before_action :check_ad_owner, only: [:update, :destroy]
 
   # GET /ads
   def index
     @ads = Ad.all
 
     render json: @ads
+  end
+
+  # GET /my-ads
+  def my_ads
+    @my_ads = Ad.where(user_id: @user.id)
+
+    render json: @my_ads
   end
 
   # GET /ads/1
@@ -18,6 +25,10 @@ class AdsController < ApplicationController
   # POST /ads
   def create
     @ad = Ad.new(ad_params)
+    # Add additional param to object
+    #   @ad = Ad.new({**ad_params, user: @user})
+    # or modify after creation
+    #   @ad.user = @user
 
     if @ad.save
       render json: @ad, status: :created, location: @ad
@@ -49,5 +60,14 @@ class AdsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def ad_params
       params.require(:ad).permit(:title, :description, :price)
+        # add auth user id in params
+        .merge(user_id: @user.id)
     end
+
+  def check_ad_owner
+    # TODO Add admin rights for ad: (|| user.is_admin)
+    if @user&.id != @ad.user_id
+      render json: { error: "You aren't owner of this ad" }, status: :forbidden
+    end
+  end
 end

@@ -9,5 +9,8 @@ Rails.application.routes.draw do
     # delete 'logout' => :destroy
   end
 
-  resources :ads
+  controller :ads do
+    resources :ads
+    get 'my-ads' => :my_ads
+  end
 end
