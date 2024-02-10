@@ -22,6 +22,12 @@ class AuthController < ApplicationController
   #  # should be implemented
   # end
 
+  def get_auth_user
+    render json: {
+      user: UserSerializer.new(@user)
+    }, status: :ok
+  end
+
   private
 
   def login_params

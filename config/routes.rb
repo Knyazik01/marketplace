@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   controller :auth do
     post 'login' => :login
+    get 'me' => :get_auth_user
     # delete 'logout' => :destroy
   end
 
