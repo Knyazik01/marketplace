@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_28_131848) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_10_232200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,6 +24,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_28_131848) do
     t.index ["user_id"], name: "index_ads_on_user_id"
   end
 
+  create_table "favourite_ads", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "ad_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ad_id"], name: "index_favourite_ads_on_ad_id"
+    t.index ["user_id", "ad_id"], name: "index_favourite_ads_on_user_id_and_ad_id", unique: true
+    t.index ["user_id"], name: "index_favourite_ads_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "login"
     t.string "password_digest"
@@ -34,4 +44,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_28_131848) do
   end
 
   add_foreign_key "ads", "users"
+  add_foreign_key "favourite_ads", "ads"
+  add_foreign_key "favourite_ads", "users"
 end
