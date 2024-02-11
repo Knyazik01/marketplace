@@ -1,6 +1,5 @@
-# TODO check if we need it (? add user serializer: only id + name)
 class FavouriteAdSerializer < ActiveModel::Serializer
-  attributes :id
-  has_one :user
+  attributes :id, :user_id, :ad_id
+  has_one :user # digest fields filtered automatically
   has_one :ad
 end
