@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :comments
   # INFO: favourite_ads cannot be edit: only view, create and delete
   resources :favourite_ads, only: [:index, :show, :create, :destroy]
 

@@ -15,7 +15,6 @@ class AuthController < ApplicationController
     else
       render json: {message: 'Invalid user/password combination'}, status: :unauthorized
     end
-
   end
 
   # def logout
