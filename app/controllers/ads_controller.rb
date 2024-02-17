@@ -8,6 +8,8 @@ class AdsController < ApplicationController
     @ads = Ad.all
 
     render json: @ads
+    # include will rewrite serializer
+    # , include: 'user,comments.user'
   end
 
   # GET /my-ads
